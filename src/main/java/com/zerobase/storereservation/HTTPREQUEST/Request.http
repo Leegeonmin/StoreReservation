@@ -1,0 +1,11 @@
+POST http://localhost:8080/auth/signup
+Content-Type: application/json
+
+{
+  "name": "ltetae",
+  "password": "1234",
+  "phone": "01054325930",
+  "role": "CEeO"
+}
+
+###
