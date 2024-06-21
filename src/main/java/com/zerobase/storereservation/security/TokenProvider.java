@@ -1,0 +1,110 @@
+package com.zerobase.storereservation.security;
+
+import com.zerobase.storereservation.dto.SignUp;
+import com.zerobase.storereservation.service.MemberService;
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
+
+import java.net.Authenticator;
+import java.security.Key;
+import java.util.Date;
+
+@Component
+@RequiredArgsConstructor
+@Slf4j
+public class TokenProvider {
+    private final MemberService memberService;
+    public Key key;
+    public Long expiredTime;
+
+    // config에 저장한 값을 디코딩해 HMAC 알고리즘으로 Key 객체 생성
+    public TokenProvider(@Value("${jwt.secretKey}") String secretKey,
+                         @Value("${jwt.expiredTime}") Long accessTime) {
+        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
+        this.key = Keys.hmacShaKeyFor(keyBytes);
+        this.expiredTime = accessTime;
+    }
+
+    @org.springframework.beans.factory.annotation.Autowired
+    public TokenProvider(MemberService memberService) {
+        this.memberService = memberService;
+    }
+
+    /**
+     * Jwt 토큰 생성
+     * @param username
+     * @param role
+     * @return
+     */
+    public String generateToken(String username, String role){
+        Claims claims = Jwts.claims();
+        claims.put("role", role);
+
+        Date date = new Date();
+        Date expiredDate = new Date(date.getTime() + expiredTime);
+
+        return Jwts.builder()
+                .setSubject(username)
+                .setClaims(claims)
+                .setIssuedAt(date)
+                .setExpiration(expiredDate)
+                .signWith(this.key, SignatureAlgorithm.HS512)
+                .compact();
+    }
+
+
+    /**
+     * Token에서 username 추출
+     * @param token
+     * @return
+     */
+    public String getUsername(String token){
+        return this.parseClaims(token).getSubject();
+    }
+    /**
+     * Jwt Claims 추출
+     * @param token
+     * @return
+     */
+    public Claims parseClaims(String token){
+        try{
+            return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+        }catch (ExpiredJwtException e){
+            throw e;
+        }
+    }
+
+    /**
+     * Token 유효성 검증
+     * @param token
+     * @return
+     */
+    public boolean validateToken(String token){
+        try {
+            Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+            return true;
+        } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
+            log.info("Invalid JWT signature.");
+        } catch (ExpiredJwtException e) {
+            log.info("Expired JWT token.");
+        } catch (UnsupportedJwtException e) {
+            log.info("Unsupported JWT token.");
+        } catch (IllegalArgumentException e) {
+            log.info("JWT token is invalid.");
+        }
+        return false;
+    }
+
+    public Authentication getAuthentication(String token){
+        UserDetails userDetails = memberService.loadUserByUsername(getUsername(token));
+        return new UsernamePasswordAuthenticationToken(userDetails,"", userDetails.getAuthorities());
+    }
+}

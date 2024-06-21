@@ -2,9 +2,13 @@ package com.zerobase.storereservation.service;
 
 import com.zerobase.storereservation.domain.MemberEntity;
 import com.zerobase.storereservation.exception.CustomException;
+import com.zerobase.storereservation.exception.ErrorCode;
 import com.zerobase.storereservation.repository.MemberRepository;
 import com.zerobase.storereservation.type.UserRole;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +20,7 @@ import static com.zerobase.storereservation.exception.ErrorCode.USER_ALREADY_EXI
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true) // 기본값을 true로 설정하여 Dirty Checking X 변경이 있는 메서드만 따로 사용할 것
-public class MemberService {
+public class MemberService implements UserDetailsService {
     private final PasswordEncoder passwordEncoder;
     private final MemberRepository memberRepository;
 
@@ -44,5 +48,11 @@ public class MemberService {
                         .build()
         );
         return memberEntity.getId();
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return memberRepository.findByName(username)
+                .orElseThrow(()-> new CustomException(ErrorCode.USER_NOT_FOUND));
     }
 }
