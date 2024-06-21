@@ -1,7 +1,7 @@
 # 개요
 * 매장 테이블 예약 서비스
 
-Use : Spring boot, Spring Security(Jwt), MariaDB
+Use : Spring boot, Spring Security(Jwt), MariaDB <br/>
 Goal : 매장 관련된 기능(매장 등록, 상세, 수정, 삭제), 매장 테이블 예약에 관련된 기능(예약, 예약확인)과 리뷰에 관한 서비스의 백엔드 서버를 구축한다
 
 ## 구현 기능
