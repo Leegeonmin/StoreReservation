@@ -7,6 +7,8 @@ import lombok.*;
 public class SignUp {
 
     @Getter
+    @Builder
+    @AllArgsConstructor
     public static class Request {
         @NotBlank
         private String name;

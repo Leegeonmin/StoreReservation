@@ -20,12 +20,12 @@ public class AuthController {
 
     /**
      * 회원가입 API
-     * 이름, 비밀번호, 휴대전화번호, 역할을 입력받아 회원가입
      * @param request
+     * @request : 이름, 비밀번호, 휴대전화번호, 역할을 입력받아 회원가입
      * @return 사용자 id
      */
     @PostMapping("/signup")
-    public ResponseEntity<?> signup(@RequestBody @Valid SignUp.Request request) {
+    public ResponseEntity<SignUp.Response> signup(@RequestBody @Valid SignUp.Request request) {
         log.info("signup");
         Long memberId = memberService.signup(request.getName(), request.getPassword(), request.getPhone(), request.getRole());
         return ResponseEntity.ok().body(SignUp.Response.builder().userId(memberId).build());

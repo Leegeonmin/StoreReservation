@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 @Entity(name = "Reservation")
 public class ReservationEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull
     private Long id;
 
     @NotNull
@@ -25,6 +24,5 @@ public class ReservationEntity {
     private String phone;
 
     @CreatedDate
-    @NotNull
     private LocalDateTime createdDate;
 }

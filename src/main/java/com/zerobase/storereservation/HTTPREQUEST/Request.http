@@ -2,10 +2,20 @@ POST http://localhost:8080/auth/signup
 Content-Type: application/json
 
 {
-  "name": "ltetae",
-  "password": "1234",
-  "phone": "01054325930",
-  "role": "CEeO"
+  "name": "name",
+  "password": "password",
+  "phone": "01000000000",
+  "role": "CEO"
 }
 
 ###
+
+POST http://localhost:8080/store
+Content-Type: application/json
+
+{
+  "name": "mart",
+  "address": "이의동",
+  "description": "설명란",
+  "memberId":11
+}

@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 @Entity(name = "Review")
 public class ReviewEntity {
     @Id @GeneratedValue( strategy = GenerationType.IDENTITY)
-    @NotNull
     private Long id;
 
     @NotNull
@@ -22,10 +21,8 @@ public class ReviewEntity {
     private String content;
 
     @CreatedDate
-    @NotNull
     private LocalDateTime createdDate;
     @LastModifiedDate
-    @NotNull
     private LocalDateTime modifiedDate;
 
 }
