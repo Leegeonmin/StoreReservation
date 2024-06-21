@@ -18,7 +18,6 @@ import java.security.Key;
 import java.util.Date;
 
 @Component
-@RequiredArgsConstructor
 @Slf4j
 public class TokenProvider {
     private final MemberService memberService;
@@ -26,8 +25,9 @@ public class TokenProvider {
     public Long expiredTime;
 
     // config에 저장한 값을 디코딩해 HMAC 알고리즘으로 Key 객체 생성
-    public TokenProvider(@Value("${jwt.secretKey}") String secretKey,
+    public TokenProvider(@Value("${jwt.secretKey}") String secretKey, MemberService memberService,
                          @Value("${jwt.expiredTime}") Long accessTime) {
+        this.memberService = memberService;
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
         this.expiredTime = accessTime;
