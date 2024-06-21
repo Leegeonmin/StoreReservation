@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,9 +22,10 @@ public class StoreController {
     /**
      * 매장등록 API
      * @param request
-     * @request 이름, 주소, 설명, 사장님 Id
+     * request 이름, 주소, 설명, 사장님 Id
      * @return
      */
+    @PreAuthorize("hasRole('CEO')")
     @PostMapping
     public ResponseEntity<AddStore.Response> AddStore(@RequestBody @Valid  AddStore.Request request){
         Long storeId = storeService.registerStore(request.getName(), request.getDescription(),

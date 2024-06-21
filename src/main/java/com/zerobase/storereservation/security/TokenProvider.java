@@ -1,11 +1,9 @@
 package com.zerobase.storereservation.security;
 
-import com.zerobase.storereservation.dto.SignUp;
 import com.zerobase.storereservation.service.MemberService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -13,7 +11,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import java.net.Authenticator;
 import java.security.Key;
 import java.util.Date;
 
@@ -33,11 +30,6 @@ public class TokenProvider {
         this.expiredTime = accessTime;
     }
 
-    @org.springframework.beans.factory.annotation.Autowired
-    public TokenProvider(MemberService memberService) {
-        this.memberService = memberService;
-    }
-
     /**
      * Jwt 토큰 생성
      * @param username
@@ -45,14 +37,14 @@ public class TokenProvider {
      * @return
      */
     public String generateToken(String username, String role){
-        Claims claims = Jwts.claims();
+        Claims claims = Jwts.claims().setSubject(username);
+
         claims.put("role", role);
 
         Date date = new Date();
         Date expiredDate = new Date(date.getTime() + expiredTime);
 
         return Jwts.builder()
-                .setSubject(username)
                 .setClaims(claims)
                 .setIssuedAt(date)
                 .setExpiration(expiredDate)

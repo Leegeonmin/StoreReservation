@@ -1,21 +1,35 @@
+### 회원가입
 POST http://localhost:8080/auth/signup
 Content-Type: application/json
 
 {
-  "name": "nam22e",
+  "name": "1212",
   "password": "password",
   "phone": "01000000000",
-  "role": "CEO"
+  "role": "USER"
 }
 
-###
+### 상품등록
 
 POST http://localhost:8080/store
 Content-Type: application/json
+Authorization: BEARER eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMjEyIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE3MTkwMDU4NzAsImV4cCI6MTcxOTAwOTQ3MH0.Rg-cb0ecpagQrB5G0fwqDzsWxHO9prgiu6A9BZNtVP03TG4EwYakrLSistCsRDGbtJvAcaQa0H0AlbSetuusew
 
 {
-  "name": "mart",
-  "address": "이의동",
+  "name": "유저",
+  "address": "이동의동",
   "description": "설명란",
   "memberId":11
 }
+
+### 로그인
+
+POST http://localhost:8080/auth/signin
+Content-Type: application/json
+
+{
+  "name": "1212",
+  "password": "password"
+
+}
+

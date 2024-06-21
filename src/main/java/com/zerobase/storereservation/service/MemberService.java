@@ -31,7 +31,7 @@ public class MemberService implements UserDetailsService {
      * @param password
      * @param phone
      * @param role
-     * @return
+     * @return 회원 Id
      */
     @Transactional(readOnly = false)
     public Long signup(String name, String password, String phone, String role) {
@@ -54,5 +54,23 @@ public class MemberService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return memberRepository.findByName(username)
                 .orElseThrow(()-> new CustomException(ErrorCode.USER_NOT_FOUND));
+    }
+
+    /**
+     * 로그인
+     * 입력받은 이름과 비밀번호로 사용자 조회
+     * @param name
+     * @param password
+     * @return MemberEntity
+     */
+    public MemberEntity signin(String name, String password) {
+        MemberEntity memberEntity = memberRepository.findByName(name)
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        if(!passwordEncoder.matches(password, memberEntity.getPassword())){
+            throw new CustomException(ErrorCode.USER_NOT_FOUND);
+        }
+        return memberEntity;
+
     }
 }
