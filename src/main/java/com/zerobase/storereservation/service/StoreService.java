@@ -2,6 +2,7 @@ package com.zerobase.storereservation.service;
 
 import com.zerobase.storereservation.domain.MemberEntity;
 import com.zerobase.storereservation.domain.StoreEntity;
+import com.zerobase.storereservation.dto.StoreDto;
 import com.zerobase.storereservation.exception.CustomException;
 import com.zerobase.storereservation.exception.ErrorCode;
 import com.zerobase.storereservation.repository.MemberRepository;
@@ -10,6 +11,8 @@ import com.zerobase.storereservation.type.UserRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -22,10 +25,10 @@ public class StoreService {
     /**
      * 매장 등록
      * memberId가 유효한지, CEO가 맞는지 검증 후 매장 정보 저장
-     * @param name
-     * @param description
-     * @param address
-     * @param memberId
+     * @param name 매장 이름
+     * @param description 매장 설명
+     * @param address 매장 주소
+     * @param memberId CEO의 id
      * @return
      */
     @Transactional(readOnly = false)
@@ -53,7 +56,23 @@ public class StoreService {
 
         return store.getId();
     }
-    // 수정
 
-    // 삭제
+
+    /**
+     * 매장 수정
+     * storeId가 유효한지, storeid로 store의 memberId조회, memberId와 일치하는 지 검증 후 매장 수정
+     * @param memberId Jwt에서 가져온 사용자Id
+     * @param storeDto storeId, 매장이름, 매장주소, 매장설명
+     */
+    @Transactional(readOnly = false)
+    public void updateStore(Long memberId, StoreDto storeDto) {
+        StoreEntity storeEntity = storeRepository.findById(storeDto.getStoreId()).orElseThrow(
+                () -> new CustomException(ErrorCode.STORE_NOT_FOUND)
+        );
+        if(!Objects.equals(memberId, storeEntity.getMemberId())){
+            throw new CustomException(ErrorCode.CEO_UNMATCHED);
+        }
+        storeEntity.update(storeDto);
+
+    }
 }

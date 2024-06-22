@@ -1,5 +1,6 @@
 package com.zerobase.storereservation.domain;
 
+import com.zerobase.storereservation.dto.StoreDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class StoreEntity {
     @Id @GeneratedValue(strategy =  GenerationType.IDENTITY)
     private Long id;
@@ -33,4 +35,15 @@ public class StoreEntity {
     @LastModifiedDate
     private LocalDateTime modifiedDate;
 
+    public void update( StoreDto dto){
+        if(dto.getName() != null){
+            this.name = dto.getName();
+        }
+        if(dto.getAddress() != null){
+            this.address = dto.getAddress();
+        }
+        if(dto.getDescription() != null){
+            this.description = dto.getDescription();
+        }
+    }
 }
