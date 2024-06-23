@@ -19,7 +19,6 @@ import java.io.IOException;
 @Slf4j
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-    private final MemberService memberService;
     private final TokenProvider tokenProvider;
     public static final String TOKEN_HEADER = "Authorization";
     public static final String TOKEN_PREFIX = "BEARER ";

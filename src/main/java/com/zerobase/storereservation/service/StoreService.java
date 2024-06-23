@@ -9,10 +9,15 @@ import com.zerobase.storereservation.repository.MemberRepository;
 import com.zerobase.storereservation.repository.StoreRepository;
 import com.zerobase.storereservation.type.UserRole;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -102,5 +107,33 @@ public class StoreService {
             throw new CustomException(ErrorCode.CEO_UNMATCHED);
         }
         return  storeEntity;
+    }
+
+
+    /**
+     * 매장 검색 로직
+     * keyword의 존재유무에 따라서
+     * @param keyword 이름에 들어갈 키워드
+     * @param pageable paging에 필요한 데이터
+     * @return StoreDto
+     */
+    public Page<StoreDto> searchStore(String keyword, Pageable pageable) {
+        Page<StoreEntity> storeEntities;
+
+        if (keyword == null || keyword.isEmpty()) {
+            storeEntities = storeRepository.findAll(pageable);
+        } else {
+            storeEntities = storeRepository.findByNameContaining(keyword, pageable);
+        }
+
+        List<StoreDto> dtos = storeEntities.getContent().stream().map(
+                entity -> StoreDto.builder()
+                        .name(entity.getName())
+                        .description(entity.getDescription())
+                        .address(entity.getAddress())
+                        .build()
+        ).collect(Collectors.toList());
+
+        return new PageImpl<>(dtos, pageable, storeEntities.getTotalElements());
     }
 }

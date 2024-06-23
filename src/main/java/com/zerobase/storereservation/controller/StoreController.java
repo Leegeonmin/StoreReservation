@@ -3,17 +3,24 @@ package com.zerobase.storereservation.controller;
 import com.zerobase.storereservation.domain.DeleteStore;
 import com.zerobase.storereservation.domain.MemberEntity;
 import com.zerobase.storereservation.dto.AddStore;
+import com.zerobase.storereservation.dto.GetStores;
 import com.zerobase.storereservation.dto.StoreDto;
 import com.zerobase.storereservation.dto.UpdateStore;
 import com.zerobase.storereservation.service.StoreService;
+import jakarta.annotation.Nullable;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @Slf4j
@@ -28,6 +35,28 @@ import org.springframework.web.bind.annotation.*;
 public class StoreController {
     private final StoreService storeService;
 
+
+    /**
+     * 매장 검색 API
+     * @param keyword 매장 이름에 들어갈 내용 빈값 가능
+     * @param pageable page와 size가 필요
+     * @return 매장의 이름, 주소, 설명이 들어감
+     */
+    @PreAuthorize("hasRole('USER')")
+    @GetMapping()
+    public ResponseEntity<Page<GetStores.Response>> getStores(@RequestParam(name = "keyword") @Nullable String keyword,
+                                                     Pageable pageable){
+        Page<StoreDto> storeDtos = storeService.searchStore(keyword, pageable);
+        List<GetStores.Response> responseList = storeDtos.getContent().stream()
+                .map(
+                        x -> GetStores.Response.builder()
+                                .address(x.getAddress())
+                                .name(x.getName())
+                                .description(x.getDescription())
+                                .build()
+                ).toList();
+        return ResponseEntity.ok().body(new PageImpl<>(responseList,pageable,storeDtos.getTotalElements()));
+    }
     /**
      * 매장 등록 API
      *
