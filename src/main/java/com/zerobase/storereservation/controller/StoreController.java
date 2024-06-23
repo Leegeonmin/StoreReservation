@@ -1,5 +1,6 @@
 package com.zerobase.storereservation.controller;
 
+import com.zerobase.storereservation.domain.DeleteStore;
 import com.zerobase.storereservation.domain.MemberEntity;
 import com.zerobase.storereservation.dto.AddStore;
 import com.zerobase.storereservation.dto.StoreDto;
@@ -12,10 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @Slf4j
@@ -32,8 +30,9 @@ public class StoreController {
 
     /**
      * 매장 등록 API
+     *
      * @param request 매장이름, 매장주소, 매장설명
-     * @param member Jwt를 통해 가져온 사용자 정보
+     * @param member  Jwt를 통해 가져온 사용자 정보
      * @return 매장ID
      */
     @PreAuthorize("hasRole('CEO')")
@@ -47,13 +46,14 @@ public class StoreController {
 
     /**
      * 매장 수정 API
+     *
      * @param request 매장ID, 매장이름, 매장주소, 매장설명 (매장ID를 제외 전부 Nullable)
-     * @param member Jwt를 통해 가져온 사용자 정보
+     * @param member  Jwt를 통해 가져온 사용자 정보
      * @return 수정된 매장이름
      */
     @PreAuthorize("hasRole('CEO')")
     @PatchMapping
-    public ResponseEntity<?> updateStore(@RequestBody @Valid UpdateStore.Request request
+    public ResponseEntity<String> updateStore(@RequestBody @Valid UpdateStore.Request request
             , @AuthenticationPrincipal MemberEntity member) {
         storeService.updateStore(member.getId(), StoreDto.builder()
                 .storeId(request.getStoreId())
@@ -62,5 +62,19 @@ public class StoreController {
                 .address(request.getAddress())
                 .build());
         return ResponseEntity.ok().body("store " + request.getName() + " update successful");
+    }
+
+    /**
+     * 매장 삭제 API
+     * @param request storeId 입력받음
+     * @param member Jwt를 통해 가져온 사용자 정보
+     * @return 삭제 성공 메시지
+     */
+    @PreAuthorize("hasRole('CEO')")
+    @DeleteMapping
+    public ResponseEntity<String> deleteStore(@RequestBody @Valid DeleteStore.Request request
+            , @AuthenticationPrincipal MemberEntity member) {
+        String storeName = storeService.deleteStore(request.getStoreId(), member.getId());
+        return ResponseEntity.ok().body("store " + storeName + " delete successful" );
     }
 }

@@ -33,9 +33,6 @@ Authorization: BEARER eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsZWVnZW9uIiwicm9sZSI6IkNFT
   "description": "설명란2"
 }
 
-
-
-
 ### 상품 수정
 
 PATCH http://localhost:8080/store
@@ -46,4 +43,14 @@ Authorization: BEARER eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsZWVnZW9uIiwicm9sZSI6IkNFT
   "storeId": 4,
   "address": "address",
   "description": "des"
+}
+
+### 상품 삭제
+
+DELETE http://localhost:8080/store
+Content-Type: application/json
+Authorization: BEARER eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsZWVnZW9uIiwicm9sZSI6IkNFTyIsImlhdCI6MTcxOTE1NTg3NCwiZXhwIjoxNzE5MTU5NDc0fQ.GjXkyS4P09WBPVRDXyWzlYmSpmqskf5Rqd6v3rRopBJMWoxQyKBBX_StkbN9BC1CHZ7l78dW0m4QXB1q-suTxA
+
+{
+  "storeId": 4
 }

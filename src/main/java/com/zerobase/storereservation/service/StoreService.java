@@ -66,13 +66,41 @@ public class StoreService {
      */
     @Transactional(readOnly = false)
     public void updateStore(Long memberId, StoreDto storeDto) {
-        StoreEntity storeEntity = storeRepository.findById(storeDto.getStoreId()).orElseThrow(
+        StoreEntity storeEntity = validatedStore(storeDto.getStoreId(), memberId);
+
+        storeEntity.update(storeDto);
+
+    }
+
+    /**
+     * 매장 삭제
+     * 매장id, 사용자id 검증 후 삭제
+     * @param storeId 매장 ID
+     * @param memberId
+     * @return
+     */
+    @Transactional(readOnly = false)
+    public String deleteStore(Long storeId, Long memberId) {
+        StoreEntity storeEntity = validatedStore(storeId, memberId);
+        storeRepository.delete(storeEntity);
+        return storeEntity.getName();
+    }
+
+
+    /**
+     * 상점 수정, 삭제 시 공통 유효성 검증 로직
+     * storeID가 유효한지, store의 MemberId와 입력의 MemberId가 일치하는지 검증
+     * @param storeId 매장 id
+     * @param memberId CEO id
+     * @return StoreEntity
+     */
+    private StoreEntity validatedStore(Long storeId, Long memberId) {
+        StoreEntity storeEntity = storeRepository.findById(storeId).orElseThrow(
                 () -> new CustomException(ErrorCode.STORE_NOT_FOUND)
         );
         if(!Objects.equals(memberId, storeEntity.getMemberId())){
             throw new CustomException(ErrorCode.CEO_UNMATCHED);
         }
-        storeEntity.update(storeDto);
-
+        return  storeEntity;
     }
 }
