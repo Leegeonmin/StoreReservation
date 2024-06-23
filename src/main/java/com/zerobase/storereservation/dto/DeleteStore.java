@@ -1,4 +1,4 @@
-package com.zerobase.storereservation.domain;
+package com.zerobase.storereservation.dto;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;

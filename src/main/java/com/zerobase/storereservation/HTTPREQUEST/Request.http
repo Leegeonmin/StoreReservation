@@ -68,7 +68,16 @@ GET http://localhost:8080/store/7
 Content-Type: application/json
 Authorization: BEARER eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMSIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzE5MTY2NDQ5LCJleHAiOjE3MTkxNzAwNDl9.YvYO_-qPBgy9LB4Td0HqZEU0dJcr0RQMm-q2QsZ0uA9-0nMMBcd-wXT2HeCiyXEi3Ur_uVTGFGvBHEeyIB_gIA
 
+### 매장 예약
 
+POST http://localhost:8080/reservation
+Content-Type: application/json
+Authorization: BEARER eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMSIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzE5MTY4MTUxLCJleHAiOjE3MTkxNzE3NTF9.h4SuhKh5bWbtpqnpv-7jk3-WyYOVixM_lrTP6tPPknivdISkNnF2i5EkOkkmkaauD8MdOJP4pUjjizYCJ9fVIw
+
+{
+  "storeId" : 6,
+  "reserveTime" : "2024-06-23T19:00"
+}
 
 
 

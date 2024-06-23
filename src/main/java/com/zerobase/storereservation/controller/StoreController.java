@@ -1,6 +1,6 @@
 package com.zerobase.storereservation.controller;
 
-import com.zerobase.storereservation.domain.DeleteStore;
+import com.zerobase.storereservation.dto.DeleteStore;
 import com.zerobase.storereservation.domain.MemberEntity;
 import com.zerobase.storereservation.dto.AddStore;
 import com.zerobase.storereservation.dto.GetStoreDetail;
