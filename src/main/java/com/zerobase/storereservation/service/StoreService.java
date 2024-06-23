@@ -30,10 +30,11 @@ public class StoreService {
     /**
      * 매장 등록
      * memberId가 유효한지, CEO가 맞는지 검증 후 매장 정보 저장
-     * @param name 매장 이름
+     *
+     * @param name        매장 이름
      * @param description 매장 설명
-     * @param address 매장 주소
-     * @param memberId CEO의 id
+     * @param address     매장 주소
+     * @param memberId    CEO의 id
      * @return
      */
     @Transactional(readOnly = false)
@@ -46,7 +47,7 @@ public class StoreService {
         MemberEntity memberEntity = memberRepository.findById(memberId).orElseThrow(
                 () -> new CustomException(ErrorCode.USER_NOT_FOUND)
         );
-        if(memberEntity.getUserRole() != UserRole.CEO){
+        if (memberEntity.getUserRole() != UserRole.CEO) {
             throw new CustomException(ErrorCode.USER_AUTHORIZATION_FAIL);
         }
 
@@ -66,6 +67,7 @@ public class StoreService {
     /**
      * 매장 수정
      * storeId가 유효한지, storeid로 store의 memberId조회, memberId와 일치하는 지 검증 후 매장 수정
+     *
      * @param memberId Jwt에서 가져온 사용자Id
      * @param storeDto storeId, 매장이름, 매장주소, 매장설명
      */
@@ -80,9 +82,10 @@ public class StoreService {
     /**
      * 매장 삭제
      * 매장id, 사용자id 검증 후 삭제
-     * @param storeId 매장 ID
+     *
+     * @param storeId  매장 ID
      * @param memberId
-     * @return
+     * @return StoreDto
      */
     @Transactional(readOnly = false)
     public String deleteStore(Long storeId, Long memberId) {
@@ -95,7 +98,8 @@ public class StoreService {
     /**
      * 상점 수정, 삭제 시 공통 유효성 검증 로직
      * storeID가 유효한지, store의 MemberId와 입력의 MemberId가 일치하는지 검증
-     * @param storeId 매장 id
+     *
+     * @param storeId  매장 id
      * @param memberId CEO id
      * @return StoreEntity
      */
@@ -103,21 +107,22 @@ public class StoreService {
         StoreEntity storeEntity = storeRepository.findById(storeId).orElseThrow(
                 () -> new CustomException(ErrorCode.STORE_NOT_FOUND)
         );
-        if(!Objects.equals(memberId, storeEntity.getMemberId())){
+        if (!Objects.equals(memberId, storeEntity.getMemberId())) {
             throw new CustomException(ErrorCode.CEO_UNMATCHED);
         }
-        return  storeEntity;
+        return storeEntity;
     }
 
 
     /**
      * 매장 검색 로직
      * keyword의 존재유무에 따라서
-     * @param keyword 이름에 들어갈 키워드
+     *
+     * @param keyword  이름에 들어갈 키워드
      * @param pageable paging에 필요한 데이터
      * @return StoreDto
      */
-    public Page<StoreDto> searchStore(String keyword, Pageable pageable) {
+    public Page<String> searchStore(String keyword, Pageable pageable) {
         Page<StoreEntity> storeEntities;
 
         if (keyword == null || keyword.isEmpty()) {
@@ -126,14 +131,25 @@ public class StoreService {
             storeEntities = storeRepository.findByNameContaining(keyword, pageable);
         }
 
-        List<StoreDto> dtos = storeEntities.getContent().stream().map(
-                entity -> StoreDto.builder()
-                        .name(entity.getName())
-                        .description(entity.getDescription())
-                        .address(entity.getAddress())
-                        .build()
-        ).collect(Collectors.toList());
+        List<String> dtos = storeEntities.getContent().stream().map(
+                StoreEntity::getName).collect(Collectors.toList());
 
         return new PageImpl<>(dtos, pageable, storeEntities.getTotalElements());
+    }
+
+    /**
+     * 매장 조회
+     * @param id 매장 id
+     * @return StoreDto
+     */
+    public StoreDto searchStoreDetail(Long id) {
+        StoreEntity storeEntity = storeRepository.findById(id).orElseThrow(
+                () -> new CustomException(ErrorCode.STORE_NOT_FOUND)
+        );
+        return StoreDto.builder()
+                .address(storeEntity.getAddress())
+                .description(storeEntity.getDescription())
+                .name(storeEntity.getName())
+                .build();
     }
 }

@@ -58,9 +58,17 @@ Authorization: BEARER eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsZWVnZW9uIiwicm9sZSI6IkNFT
 
 ### 상품 조회
 
-GET http://localhost:8080/store?keyword=mar&page=0&size=3
+GET http://localhost:8080/store?keyword=&page=0&size=10
 Content-Type: application/json
-Authorization: BEARER eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMSIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzE5MTYyNjA3LCJleHAiOjE3MTkxNjYyMDd9.bYE_nVR7hov3pDug-QmlIfoib09vvnmN9ZHsn3BXFSXCGNpOzbxa8RwT4BS00mRykUrGfqjoi8APOTF9ALD6BQ
+Authorization: BEARER eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMSIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzE5MTY2NDQ5LCJleHAiOjE3MTkxNzAwNDl9.YvYO_-qPBgy9LB4Td0HqZEU0dJcr0RQMm-q2QsZ0uA9-0nMMBcd-wXT2HeCiyXEi3Ur_uVTGFGvBHEeyIB_gIA
+
+### 상품 단건 조회
+
+GET http://localhost:8080/store/7
+Content-Type: application/json
+Authorization: BEARER eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMSIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzE5MTY2NDQ5LCJleHAiOjE3MTkxNzAwNDl9.YvYO_-qPBgy9LB4Td0HqZEU0dJcr0RQMm-q2QsZ0uA9-0nMMBcd-wXT2HeCiyXEi3Ur_uVTGFGvBHEeyIB_gIA
+
+
 
 
 
