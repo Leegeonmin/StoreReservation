@@ -1,6 +1,7 @@
 package com.zerobase.storereservation.repository;
 
 import com.zerobase.storereservation.domain.ReservationEntity;
+import com.zerobase.storereservation.type.ReservationStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -9,7 +10,6 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface ReservationRepository extends JpaRepository<ReservationEntity, Long> {
@@ -32,4 +32,6 @@ public interface ReservationRepository extends JpaRepository<ReservationEntity, 
             @Param("storeId") Long storeId,
             @Param("phone") String phone
 );
+
+    List<ReservationEntity> findAllByReservationStatusAndReservationDateBefore(ReservationStatus reservationStatus, LocalDateTime now);
 }

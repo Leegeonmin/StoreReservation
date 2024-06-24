@@ -72,11 +72,12 @@ Authorization: BEARER eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMSIsInJvbGUiOiJVU0VSI
 
 POST http://localhost:8080/reservation
 Content-Type: application/json
-Authorization: BEARER eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMSIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzE5MjU3MTA1LCJleHAiOjE3MTkyNjA3MDV9.6JlLgpJWrl_tqkSf1aRFLN0DPPk6ntbxYGOZMrB4tTX458nHJA70CkZwnPPB7tYyS7erHC89VmicJ-ILUfM7JQ
+Authorization: BEARER eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMSIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzE5MjcwNzExLCJleHAiOjE3MTkyNzQzMTF9.2Pafpyyb3ZeV2NblJ557fMtcS5nwVnvss15XRt1q9GixlV7VpijWsuZZ17Rl2NWAMZyy-R6iSoHJvnh8gCdAMg
+
 
 {
   "storeId" : 2,
-  "reserveTime" : "2024-06-22T14:00"
+  "reserveTime" : "2024-06-19T14:00"
 }
 
 ### 매장 방문확인
@@ -86,8 +87,8 @@ Content-Type: application/json
 
 {
   "phone" : "01054325930",
-  "visitedTime" : "2024-06-28T01:40",
-  "storeId": 6
+  "visitedTime" : "2024-06-20T01:40",
+  "storeId": 2
 }
 
 

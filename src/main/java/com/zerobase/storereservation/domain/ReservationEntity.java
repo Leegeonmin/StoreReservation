@@ -49,5 +49,7 @@ public class ReservationEntity {
     public void confirmVisit() {
         this.reservationStatus = ReservationStatus.CONFIRM_VISIT;
     }
-
+    public void setReservationStatus(ReservationStatus status){
+        this.reservationStatus = status;
+    }
 }
