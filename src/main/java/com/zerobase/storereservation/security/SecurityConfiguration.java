@@ -22,7 +22,7 @@ public class SecurityConfiguration {
     private final TokenProvider tokenProvider;
     private static final String[] AUTH_WHITELIST = {
             "/swagger-ui/**", "/api-docs", "/swagger-ui-custom.html","/swagger-ui.html",
-            "/auth/**"
+            "/auth/**", "/reservation/visit"
     };
 
 

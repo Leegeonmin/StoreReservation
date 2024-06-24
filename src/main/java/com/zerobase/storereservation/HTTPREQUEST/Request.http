@@ -20,7 +20,7 @@ Content-Type: application/json
 
 }
 
-### 상품등록
+### 매장 등록
 
 POST http://localhost:8080/store
 Content-Type: application/json
@@ -34,7 +34,7 @@ Authorization: BEARER eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsZWUiLCJyb2xlIjoiQ0VPIiwia
   "description": "설명란"
 }
 
-### 상품 수정
+### 매장 수정
 
 PATCH http://localhost:8080/store
 Content-Type: application/json
@@ -46,7 +46,7 @@ Authorization: BEARER eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsZWVnZW9uIiwicm9sZSI6IkNFT
   "description": "des"
 }
 
-### 상품 삭제
+### 매장 삭제
 
 DELETE http://localhost:8080/store
 Content-Type: application/json
@@ -56,13 +56,13 @@ Authorization: BEARER eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsZWVnZW9uIiwicm9sZSI6IkNFT
   "storeId": 4
 }
 
-### 상품 조회
+### 매장 조회
 
 GET http://localhost:8080/store?keyword=&page=0&size=10
 Content-Type: application/json
 Authorization: BEARER eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMSIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzE5MTY2NDQ5LCJleHAiOjE3MTkxNzAwNDl9.YvYO_-qPBgy9LB4Td0HqZEU0dJcr0RQMm-q2QsZ0uA9-0nMMBcd-wXT2HeCiyXEi3Ur_uVTGFGvBHEeyIB_gIA
 
-### 상품 단건 조회
+### 매장 단건 조회
 
 GET http://localhost:8080/store/7
 Content-Type: application/json
@@ -72,14 +72,23 @@ Authorization: BEARER eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMSIsInJvbGUiOiJVU0VSI
 
 POST http://localhost:8080/reservation
 Content-Type: application/json
-Authorization: BEARER eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMSIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzE5MTY4MTUxLCJleHAiOjE3MTkxNzE3NTF9.h4SuhKh5bWbtpqnpv-7jk3-WyYOVixM_lrTP6tPPknivdISkNnF2i5EkOkkmkaauD8MdOJP4pUjjizYCJ9fVIw
+Authorization: BEARER eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMSIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzE5MjU3MTA1LCJleHAiOjE3MTkyNjA3MDV9.6JlLgpJWrl_tqkSf1aRFLN0DPPk6ntbxYGOZMrB4tTX458nHJA70CkZwnPPB7tYyS7erHC89VmicJ-ILUfM7JQ
 
 {
-  "storeId" : 6,
-  "reserveTime" : "2024-06-23T19:00"
+  "storeId" : 2,
+  "reserveTime" : "2024-06-22T14:00"
 }
 
+### 매장 방문확인
 
+POST http://localhost:8080/reservation/visit
+Content-Type: application/json
+
+{
+  "phone" : "01054325930",
+  "visitedTime" : "2024-06-28T01:40",
+  "storeId": 6
+}
 
 
 

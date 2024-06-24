@@ -2,6 +2,7 @@ package com.zerobase.storereservation.controller;
 
 import com.zerobase.storereservation.domain.MemberEntity;
 import com.zerobase.storereservation.dto.ReserveStore;
+import com.zerobase.storereservation.dto.VisitStore;
 import com.zerobase.storereservation.service.ReservationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -31,5 +32,16 @@ public class ReservationController {
                                           @AuthenticationPrincipal MemberEntity member){
         Long reservedId = reservationService.reserve(member.getId(), request.getStoreId(), request.getReserveTime());
         return ResponseEntity.ok().body("reservation successful! id = " + reservedId);
+    }
+
+    /**
+     * 매장 방문 확인 API
+     * @param request 전화번호, 예약시간,매장 id
+     * @return 예약 확인 문자
+     */
+    @PostMapping("/visit")
+    public ResponseEntity<?> visitStore(@RequestBody @Valid VisitStore.Request request){
+        String reserveMember = reservationService.visitConfirm(request.getPhone(), request.getVisitedTime(),request.getStoreId());
+        return ResponseEntity.ok().body(reserveMember +"님 예약이 확인되었습니다");
     }
 }

@@ -1,5 +1,6 @@
 package com.zerobase.storereservation.domain;
 
+import com.zerobase.storereservation.type.ReservationStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -17,8 +18,10 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+
 public class ReservationEntity {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
@@ -32,6 +35,19 @@ public class ReservationEntity {
     @NotNull
     private String phone;
 
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private ReservationStatus reservationStatus;
     @CreatedDate
     private LocalDateTime createdDate;
+
+    public boolean validateTime(LocalDateTime isOnTime) {
+        LocalDateTime cutOffTime = reservationDate.minusMinutes(10);
+        return !isOnTime.isAfter(cutOffTime);
+    }
+
+    public void confirmVisit() {
+        this.reservationStatus = ReservationStatus.CONFIRM_VISIT;
+    }
+
 }

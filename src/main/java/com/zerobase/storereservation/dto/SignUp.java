@@ -2,6 +2,7 @@ package com.zerobase.storereservation.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 public class SignUp {
@@ -15,6 +16,7 @@ public class SignUp {
         @NotBlank
         private String password;
         @NotBlank
+        @Size(min = 11,max = 11)
         private String phone;
         @NotBlank
         @Pattern(regexp = "^(CEO|USER)$", message = "Role must be either CEO or USER")
