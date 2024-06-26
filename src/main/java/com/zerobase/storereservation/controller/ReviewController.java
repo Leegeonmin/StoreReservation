@@ -2,6 +2,7 @@ package com.zerobase.storereservation.controller;
 
 import com.zerobase.storereservation.domain.MemberEntity;
 import com.zerobase.storereservation.dto.AddReview;
+import com.zerobase.storereservation.dto.DeleteReview;
 import com.zerobase.storereservation.dto.UpdateReview;
 import com.zerobase.storereservation.service.ReviewService;
 import jakarta.validation.Valid;
@@ -38,7 +39,7 @@ public class ReviewController {
     /**
      * 리뷰 수정 API
      * @param request 리뷰내용, 평점, 리뷰id
-     * @param memberEntity 토큰 사용자 ㅈㅇ보
+     * @param memberEntity 토큰 사용자 정보
      * @return 리뷰 수정 성공 메시지
      */
     @PatchMapping
@@ -47,6 +48,21 @@ public class ReviewController {
                                                @AuthenticationPrincipal MemberEntity memberEntity){
         reviewService.updateReview(request.getReviewId(), request.getContent(), request.getStar(), memberEntity.getId());
         return ResponseEntity.ok().body("id " + request.getReviewId() + " update success");
+    }
+
+
+    /**
+     * 리뷰 삭제 API
+     * @param request 리뷰id
+     * @param memberEntity 토큰 사용자 정보
+     * @return 리뷰 삭제 성공 메시지
+     */
+    @DeleteMapping
+    @PreAuthorize("hasAnyRole('CEO', 'USER')")
+    public ResponseEntity<?> deleteReview(@RequestBody @Valid DeleteReview.Request request,
+                                          @AuthenticationPrincipal MemberEntity memberEntity){
+        reviewService.deleteReview(request.getReviewId(), memberEntity.getId());
+        return ResponseEntity.ok().body("reviewid " + request.getReviewId() + " deleted");
     }
 
 }

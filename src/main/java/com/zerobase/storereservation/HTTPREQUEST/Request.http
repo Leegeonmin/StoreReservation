@@ -15,7 +15,7 @@ POST http://localhost:8080/auth/signin
 Content-Type: application/json
 
 {
-  "name": "user2",
+  "name": "lee",
   "password": "password"
 
 }
@@ -72,12 +72,13 @@ Authorization: BEARER eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMSIsInJvbGUiOiJVU0VSI
 
 POST http://localhost:8080/reservation
 Content-Type: application/json
-Authorization: BEARER eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMSIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzE5MjcwNzExLCJleHAiOjE3MTkyNzQzMTF9.2Pafpyyb3ZeV2NblJ557fMtcS5nwVnvss15XRt1q9GixlV7VpijWsuZZ17Rl2NWAMZyy-R6iSoHJvnh8gCdAMg
+Authorization: BEARER eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMiIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzE5NDM0MTQxLCJleHAiOjE3MTk0Mzc3NDF9.nVIyC8BYEop4BIIEezrneeONPj5J8I8ma151bbEH8ubYozYnAw2Z7EGEa3AzNCqxU_akXh716txXLq_KyY1mpQ
+
 
 
 {
-  "storeId" : 2,
-  "reserveTime" : "2024-06-19T14:00"
+  "storeId" : 7,
+  "reserveTime" : "2024-06-28T14:00"
 }
 
 ### 매장 방문확인
@@ -87,20 +88,20 @@ Content-Type: application/json
 
 {
   "phone" : "01054325930",
-  "visitedTime" : "2024-06-20T01:40",
-  "storeId": 2
+  "visitedTime" : "2024-06-28T01:40",
+  "storeId": 7
 }
 
 ### 리뷰 작성
 
 POST http://localhost:8080/review
 Content-Type: application/json
-Authorization: BEARER eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMSIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzE5NDI4OTk4LCJleHAiOjE3MTk0MzI1OTh9.EcL5_9e11P8CKYQWXgszDSZNcbRc8_-pQX9G1pDVx1U1CDoxG0Vx5967N3F__X15dVKUVBFQg73sMBE9eVTXtw
+Authorization: BEARER eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMiIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzE5NDM0MTQxLCJleHAiOjE3MTk0Mzc3NDF9.nVIyC8BYEop4BIIEezrneeONPj5J8I8ma151bbEH8ubYozYnAw2Z7EGEa3AzNCqxU_akXh716txXLq_KyY1mpQ
 
 {
   "content" : "참dd 맛있네요",
   "star" : 3,
-  "reservationId": 7
+  "reservationId": 9
 }
 
 
@@ -108,11 +109,26 @@ Authorization: BEARER eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMSIsInJvbGUiOiJVU0VSI
 
 PATCH http://localhost:8080/review
 Content-Type: application/json
-Authorization: BEARER eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMiIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzE5NDMyNTYxLCJleHAiOjE3MTk0MzYxNjF9.J2uYQ4uQYlstiKefE5iJBMdB6POjaMLjkjvh3lj1TcoqYG3X7nSLAe74-tDkYG5fNSd4jr2c0SLei0WWuJXz8g
-
+Authorization: BEARER eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMiIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzE5NDM0MTQxLCJleHAiOjE3MTk0Mzc3NDF9.nVIyC8BYEop4BIIEezrneeONPj5J8I8ma151bbEH8ubYozYnAw2Z7EGEa3AzNCqxU_akXh716txXLq_KyY1mpQ
 
 {
   "content" : "해킹이다",
   "star" : 5,
-  "reviewId": 1
+  "reviewId": 2
 }
+
+### 리뷰 삭제
+
+DELETE http://localhost:8080/review
+Content-Type: application/json
+Authorization: BEARER eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsZWUiLCJyb2xlIjoiQ0VPIiwiaWF0IjoxNzE5NDM1MTAwLCJleHAiOjE3MTk0Mzg3MDB9.-d4Xw8Z8W7xksw-DEYtO3374xUAFBIBjZpDjIeSmOX6sKiiVazA5ts2Cg-QTLBc369sAzWiqmZYtpk8B4Wsecg
+
+
+
+//Authorization: BEARER eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsZWUiLCJyb2xlIjoiQ0VPIiwiaWF0IjoxNzE5NDM0Mjc1LCJleHAiOjE3MTk0Mzc4NzV9.YKlYT-4Xpf3E54I9-zjINJajtP2cI7CNFV5emDacQ_jfzeXI2uBR2l2eWykhcbMFDuyvDe438yH74BS0dOF6yg
+
+
+{
+  "reviewId": 4
+}
+
