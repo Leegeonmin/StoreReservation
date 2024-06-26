@@ -29,6 +29,7 @@ Goal : 매장 관련된 기능(매장 등록, 상세, 수정, 삭제), 매장 �
 - [ ] 테스트 코드 작성
 
 ### Database ERD
-![매장 테이블 예약서비스 (4)](https://github.com/Leegeonmin/cms/assets/74194550/4c6e952e-a8b6-4ba1-8db5-792e1623b16a)
+![매장 테이블 예약서비스](https://github.com/Leegeonmin/StoreReservation/assets/74194550/2660a730-c75e-4779-bf96-0bc50e9d161e)
+
 
       
