@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 public enum ErrorCode {
+    Reservation_NOT_VISITED_CONFIRM("리뷰를 작성할 수 없는 예약입니다", HttpStatus.BAD_REQUEST),
     ALREADY_RESERVATION_CONFIRMED("이미 예약이 확인되었습니다", HttpStatus.BAD_REQUEST),
     RESERVATION_CONFIRM_TOO_LATE("너무 늦게 왔어요", HttpStatus.BAD_REQUEST),
     RESERVATION_NOT_FOUND("해당하는 예약을 찾을 수 없습니다",HttpStatus.BAD_REQUEST),
