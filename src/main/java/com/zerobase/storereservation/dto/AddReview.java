@@ -12,6 +12,6 @@ public class AddReview {
         @NotNull
         private Long star;
         @NotNull
-        private Long storeId;
+        private Long reservationId;
     }
 }
