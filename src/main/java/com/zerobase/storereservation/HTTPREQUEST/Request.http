@@ -3,7 +3,7 @@ POST http://localhost:8080/auth/signup
 Content-Type: application/json
 
 {
-  "name": "user1",
+  "name": "user2",
   "password": "password",
   "phone": "01054325930",
   "role": "USER"
@@ -15,7 +15,7 @@ POST http://localhost:8080/auth/signin
 Content-Type: application/json
 
 {
-  "name": "user1",
+  "name": "user2",
   "password": "password"
 
 }
@@ -91,5 +91,28 @@ Content-Type: application/json
   "storeId": 2
 }
 
+### 리뷰 작성
+
+POST http://localhost:8080/review
+Content-Type: application/json
+Authorization: BEARER eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMSIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzE5NDI4OTk4LCJleHAiOjE3MTk0MzI1OTh9.EcL5_9e11P8CKYQWXgszDSZNcbRc8_-pQX9G1pDVx1U1CDoxG0Vx5967N3F__X15dVKUVBFQg73sMBE9eVTXtw
+
+{
+  "content" : "참dd 맛있네요",
+  "star" : 3,
+  "reservationId": 7
+}
 
 
+### 리뷰 수정
+
+PATCH http://localhost:8080/review
+Content-Type: application/json
+Authorization: BEARER eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMiIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzE5NDMyNTYxLCJleHAiOjE3MTk0MzYxNjF9.J2uYQ4uQYlstiKefE5iJBMdB6POjaMLjkjvh3lj1TcoqYG3X7nSLAe74-tDkYG5fNSd4jr2c0SLei0WWuJXz8g
+
+
+{
+  "content" : "해킹이다",
+  "star" : 5,
+  "reviewId": 1
+}

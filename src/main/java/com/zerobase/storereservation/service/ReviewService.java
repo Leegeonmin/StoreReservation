@@ -31,6 +31,7 @@ public class ReviewService {
      * @param star 별점
      * @return 저장된 리뷰 id
      */
+    @Transactional(readOnly = false)
     public Long addReview(Long memberId, Long reservationId, String content, Long star) {
         ReservationEntity reservationEntity = reservationRepository.findById(reservationId)
                 .orElseThrow(() -> new CustomException(ErrorCode.RESERVATION_NOT_FOUND));
@@ -38,13 +39,13 @@ public class ReviewService {
         if (!Objects.equals(reservationEntity.getMemberId(), memberId)) {
             throw new CustomException(ErrorCode.USER_AUTHORIZATION_FAIL);
         }
-
         if(reservationEntity.getReservationStatus() != ReservationStatus.CONFIRM_VISIT){
             throw new CustomException(ErrorCode.Reservation_NOT_VISITED_CONFIRM);
         }
         ReviewEntity reviewEntity = reviewRepository.save(
                 ReviewEntity.builder()
-                        .reservationId(reservationEntity.getId())
+                        .memberId(memberId)
+                        .reservationId(reservationId)
                         .star(star)
                         .content(content)
                         .build()
@@ -52,5 +53,26 @@ public class ReviewService {
 
         return reviewEntity.getId();
 
+    }
+
+
+    /**
+     * 리뷰 수정 로직
+     * 리뷰id에 맞는 리뷰가 존재하는지, 리뷰의 멤버 아이디와 토큰 아이디가 일치하는지 검증 후 업데이트
+     * 값이 들어있지 않으면 변경하지 않는다
+     * @param reviewId 리뷰 아이디
+     * @param content 수정할 리뷰 내용
+     * @param star 수정할 별점 
+     * @param memberId 사용자 토큰 정보
+     */
+    @Transactional(readOnly = false)
+    public void updateReview(Long reviewId, String content, Long star, Long memberId) {
+        ReviewEntity reviewEntity = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new CustomException(ErrorCode.REVIEW_NOT_FOUND));
+        if(!Objects.equals(reviewEntity.getMemberId(), memberId)){
+            throw new CustomException(ErrorCode.USER_AUTHORIZATION_FAIL);
+        }
+
+        reviewEntity.update(content, star);
     }
 }

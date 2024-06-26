@@ -8,10 +8,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
-@EntityListeners(EntityListeners.class)
+@EntityListeners(AuditingEntityListener.class)
 @Entity(name = "Review")
 @Builder
 @AllArgsConstructor
@@ -24,6 +25,8 @@ public class ReviewEntity {
     @NotNull
     private Long reservationId;
     @NotNull
+    private Long memberId;
+    @NotNull
     private String content;
     @NotNull
     private Long star;
@@ -32,4 +35,12 @@ public class ReviewEntity {
     @LastModifiedDate
     private LocalDateTime modifiedDate;
 
+    public void update(String content, Long star) {
+        if(content != null){
+            this.content=content;
+        }
+        if(star != null){
+            this.star = star;
+        }
+    }
 }
