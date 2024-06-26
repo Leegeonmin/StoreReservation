@@ -1,11 +1,7 @@
 package com.zerobase.storereservation.controller;
 
-import com.zerobase.storereservation.dto.DeleteStore;
 import com.zerobase.storereservation.domain.MemberEntity;
-import com.zerobase.storereservation.dto.AddStore;
-import com.zerobase.storereservation.dto.GetStoreDetail;
-import com.zerobase.storereservation.dto.StoreDto;
-import com.zerobase.storereservation.dto.UpdateStore;
+import com.zerobase.storereservation.dto.*;
 import com.zerobase.storereservation.service.StoreService;
 import jakarta.annotation.Nullable;
 import jakarta.validation.Valid;
