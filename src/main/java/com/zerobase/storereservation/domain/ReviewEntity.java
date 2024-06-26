@@ -19,7 +19,8 @@ public class ReviewEntity {
     private Long memberId;
     @NotNull
     private String content;
-
+    @NotNull
+    private Long star;
     @CreatedDate
     private LocalDateTime createdDate;
     @LastModifiedDate
