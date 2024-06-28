@@ -31,6 +31,7 @@ public class ReviewController {
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<String> addReview(@RequestBody @Valid AddReview.Request request,
                                        @AuthenticationPrincipal MemberEntity memberEntity){
+        log.info("AddReview request: {}", request);
         Long reviewId = reviewService.addReview(memberEntity.getId(), request.getReservationId(), request.getContent(), request.getStar());
         return ResponseEntity.ok().body("review " + reviewId + " is saved successful");
     }
@@ -46,6 +47,7 @@ public class ReviewController {
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<String> updateReview(@RequestBody @Valid UpdateReview.Request request,
                                                @AuthenticationPrincipal MemberEntity memberEntity){
+        log.info("UpdateReview request: {}", request);
         reviewService.updateReview(request.getReviewId(), request.getContent(), request.getStar(), memberEntity.getId());
         return ResponseEntity.ok().body("id " + request.getReviewId() + " update success");
     }
@@ -61,6 +63,7 @@ public class ReviewController {
     @PreAuthorize("hasAnyRole('CEO', 'USER')")
     public ResponseEntity<?> deleteReview(@RequestBody @Valid DeleteReview.Request request,
                                           @AuthenticationPrincipal MemberEntity memberEntity){
+        log.info("DeleteReview request: {}", request);
         reviewService.deleteReview(request.getReviewId(), memberEntity.getId());
         return ResponseEntity.ok().body("reviewid " + request.getReviewId() + " deleted");
     }

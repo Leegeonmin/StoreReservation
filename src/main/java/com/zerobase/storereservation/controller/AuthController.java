@@ -29,7 +29,7 @@ public class AuthController {
      */
     @PostMapping("/signup")
     public ResponseEntity<SignUp.Response> signup(@RequestBody @Valid SignUp.Request request) {
-        log.info("signup");
+        log.info("SignUp request: {}", request);
         Long memberId = memberService.signup(request.getName(), request.getPassword(), request.getPhone(), request.getRole());
         return ResponseEntity.ok().body(SignUp.Response.builder().userId(memberId).build());
     }
@@ -38,10 +38,11 @@ public class AuthController {
      * 로그인 API
      * @param request
      * request : 이름, 비밀번호
-     * @return
+     * @return jwt
      */
     @PostMapping("/signin")
     public ResponseEntity<String> signin(@RequestBody @Valid SignIn.Request request){
+        log.info("SignIn request: {}", request);
         MemberEntity memberEntity = memberService.signin(request.getName(), request.getPassword());
 
         String token = tokenProvider.generateToken(memberEntity.getName(), memberEntity.getUserRole().name());

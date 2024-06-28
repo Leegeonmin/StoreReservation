@@ -19,6 +19,7 @@ public class ReservationScheduler {
     public void changeReservationStatus(){
         try {
             if (useSchedule) {
+                log.info("changeReservationStatus start");
                 reservationService.changeTimeOutReservationStatus();
             }
         } catch (Exception e) {

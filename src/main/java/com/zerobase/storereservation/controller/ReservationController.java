@@ -6,6 +6,7 @@ import com.zerobase.storereservation.dto.VisitStore;
 import com.zerobase.storereservation.service.ReservationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/reservation")
+@Slf4j
 public class ReservationController {
     private final ReservationService reservationService;
 
@@ -30,6 +32,7 @@ public class ReservationController {
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<String> reserveStore(@RequestBody @Valid ReserveStore.Request request,
                                           @AuthenticationPrincipal MemberEntity member){
+        log.info("ReserveStore request: {}", request );
         Long reservedId = reservationService.reserve(member.getId(), request.getStoreId(), request.getReserveTime());
         return ResponseEntity.ok().body("reservation successful! id = " + reservedId);
     }
@@ -41,6 +44,7 @@ public class ReservationController {
      */
     @PostMapping("/visit")
     public ResponseEntity<?> visitStore(@RequestBody @Valid VisitStore.Request request){
+        log.info("Visit request: {}", request );
         String reserveMember = reservationService.visitConfirm(request.getPhone(), request.getVisitedTime(),request.getStoreId());
         return ResponseEntity.ok().body(reserveMember +"님 예약이 확인되었습니다");
     }

@@ -32,11 +32,12 @@ public class TokenProvider {
 
     /**
      * Jwt 토큰 생성
-     * @param username
-     * @param role
-     * @return
+     * @param username 이름
+     * @param role 권한
+     * @return jwt
      */
     public String generateToken(String username, String role){
+        log.info("generate token : username = {}, role = {}", username, role);
         Claims claims = Jwts.claims().setSubject(username);
 
         claims.put("role", role);
@@ -55,16 +56,16 @@ public class TokenProvider {
 
     /**
      * Token에서 username 추출
-     * @param token
-     * @return
+     * @param token jwt
+     * @return jwt에서 추출한 username
      */
     public String getUsername(String token){
         return this.parseClaims(token).getSubject();
     }
     /**
      * Jwt Claims 추출
-     * @param token
-     * @return
+     * @param token jwt
+     * @return Claims
      */
     public Claims parseClaims(String token){
         try{
@@ -76,12 +77,13 @@ public class TokenProvider {
 
     /**
      * Token 유효성 검증
-     * @param token
-     * @return
+     * @param token 토큰
+     * @return 유효성
      */
     public boolean validateToken(String token){
+        log.info("validate token : token = {}", token);
         try {
-            Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
             return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
             log.info("Invalid JWT signature.");

@@ -6,6 +6,7 @@ import com.zerobase.storereservation.exception.ErrorCode;
 import com.zerobase.storereservation.repository.MemberRepository;
 import com.zerobase.storereservation.type.UserRole;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,6 +20,7 @@ import static com.zerobase.storereservation.exception.ErrorCode.USER_ALREADY_EXI
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 @Transactional(readOnly = true) // 기본값을 true로 설정하여 Dirty Checking X 변경이 있는 메서드만 따로 사용할 것
 public class MemberService implements UserDetailsService {
     private final PasswordEncoder passwordEncoder;
@@ -27,10 +29,10 @@ public class MemberService implements UserDetailsService {
     /**
      * 회원가입
      * 회원가입 전 중복아이디가 있는지 검증 후 사용자 정보 저장
-     * @param name
-     * @param password
-     * @param phone
-     * @param role
+     * @param name 이름
+     * @param password 비밀번호
+     * @param phone 전화번호
+     * @param role 역할(CEO, USER)
      * @return 회원 Id
      */
     @Transactional(readOnly = false)
@@ -59,8 +61,8 @@ public class MemberService implements UserDetailsService {
     /**
      * 로그인
      * 입력받은 이름과 비밀번호로 사용자 조회
-     * @param name
-     * @param password
+     * @param name 이름
+     * @param password 비밀번호
      * @return MemberEntity
      */
     public MemberEntity signin(String name, String password) {

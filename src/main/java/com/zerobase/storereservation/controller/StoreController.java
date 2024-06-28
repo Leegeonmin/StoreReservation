@@ -37,6 +37,7 @@ public class StoreController {
     @PreAuthorize("hasRole('USER')")
     @GetMapping("/{id}")
     public ResponseEntity<?> getStoreDetail(@PathVariable Long id){
+        log.info("GetStoreDetail request : {}",id);
         StoreDto storeDto = storeService.searchStoreDetail(id);
         return ResponseEntity.ok().body(
                 GetStoreDetail.Request.builder()
@@ -56,6 +57,7 @@ public class StoreController {
     @GetMapping()
     public ResponseEntity<Page<String>> getStores(@RequestParam(name = "keyword") @Nullable String keyword,
                                                      Pageable pageable){
+        log.info("GetStores request : {}",keyword);
         Page<String> storeDtos = storeService.searchStore(keyword, pageable);
 
         return ResponseEntity.ok().body(storeDtos);
@@ -71,6 +73,7 @@ public class StoreController {
     @PostMapping
     public ResponseEntity<AddStore.Response> addStore(@RequestBody @Valid AddStore.Request request
             , @AuthenticationPrincipal MemberEntity member) {
+        log.info("AddStore request : {}",request);
         Long storeId = storeService.registerStore(request.getName(), request.getDescription(),
                 request.getAddress(), member.getId());
         return ResponseEntity.ok().body(AddStore.Response.builder().storeId(storeId).build());
